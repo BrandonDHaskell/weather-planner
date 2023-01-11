@@ -31,7 +31,8 @@ function displayCurrentWeather(data){
     $('#high-low').text(data.main.temp_max + "/" + data.main.temp_max);
     $('#high-low').text(data.main.feels_like);
     $('#current-humidity').text(data.main.humidity + "%");
-    $('#current-presure').text(data.main.presure);
+    $('#current-pressure').text(data.main.pressure);
     $('#current-clouds').text(data.clouds.all + "%");
+    $('#current-wind').text(data.wind.deg + " / " + data.wind.speed);
 
 }
