@@ -294,8 +294,14 @@
                 </section>
                 <section id="weather" class="col-9">
                     <div id="current">
-                        <h2>Current Weather</h2>
+                        <h2>Current Weather for <span id="for-city"></span></h2>
                         <!-- add current weather data here -->
+                        <p>Current Temp: <span id="current-temp"></span></p>
+                        <p>Feels like: <span id="feels-like"></span></p>
+                        <p>High/Low: <span id="high-low"></span></p>
+                        <p>Humidity: <span id="current-humidity"></span></p>
+                        <p>Pressure: <span id="current-pressure"></span></p>
+                        <p>Clouds: <span id="current-clouds"></span></p>
                     </div>
                     <div id="forecast" class="row">
                         <h2>5 Day Forecast</h2>
@@ -326,6 +332,7 @@
             </div>
         </main>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
         <script src="./assets/scripts/scripts.js"></script>
     </body>
 </html>

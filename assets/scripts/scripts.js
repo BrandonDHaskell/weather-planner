@@ -17,10 +17,21 @@ function getCurrentWeather(){
       }
     })
     .catch(function (error) {
-      alert('Unable to connect');
+      alert('Unable to connect to current weather');
+      console.log(error);
     });
 }
 
 function displayCurrentWeather(data){
     console.log(data);
+    $('#for-city').text(data.name + " - " + data.weather[0].main);
+    
+    $('#current-temp').text(data.main.temp);
+    $('#feels-like').text(data.main.feels_like);
+    $('#high-low').text(data.main.temp_max + "/" + data.main.temp_max);
+    $('#high-low').text(data.main.feels_like);
+    $('#current-humidity').text(data.main.humidity + "%");
+    $('#current-presure').text(data.main.presure);
+    $('#current-clouds').text(data.clouds.all + "%");
+
 }
