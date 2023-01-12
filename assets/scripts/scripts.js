@@ -1,11 +1,16 @@
-
 function buttonClick(){
+  let reg = /^[a-zA-Z\s]*$/;
   var city = $('#city').val().trim();
   var countryId = $('#country').children('option').filter(':selected').val();
+
   
-  getWeatherData("weather", city, countryId);
-  getWeatherData("forecast", city, countryId);
-  addToRecentSearch(city, countryId);
+  if( reg.test(city) ){
+    getWeatherData("weather", city, countryId);
+    getWeatherData("forecast", city, countryId);
+    addToRecentSearch(city, countryId);
+  } else {
+    alert("Invalid city!");
+  }
 }
 
 function getWeatherData(wxType, city, countryId){
@@ -53,7 +58,7 @@ function displayForecastedWeather(data){
 
   $('#fcst-cards').html("");
   for(var i = 0; i < arr.length; i += 8 ){
-    var cardEl = $('<div>').addClass("card border-secondary mb-2").css("max-width", "10rem");
+    var cardEl = $('<div>').addClass("card border-secondary mb-2").css("width", "10rem");
     var cardHeaderEl = $('<div>').addClass("card-header");
     var cardBodyEl = $('<div>').addClass("card-body text-secondary");
     var cardBodyHeaderEl = $('<h5>').addClass("card-title");
@@ -74,30 +79,55 @@ function displayForecastedWeather(data){
 
 function addToRecentSearch(city, countryId){
   var recentList = $('#recent-searches-list');
-  
-  if( recentList.children().length <= 5 ){
-    var newBtn = $('<button>').addClass("btn btn-secondary").attr("type", "button").attr("data-country", countryId).text(city);
+  var newBtn = $('<button>').addClass("btn btn-secondary").attr("type", "button").attr("data-country", countryId).text(city);
 
-    newBtn.on("click", function(event){
-      event.preventDefault();
-      getWeatherData("weather", event.currentTarget.textContent, event.currentTarget.dataset.country);
-      getWeatherData("forecast", event.currentTarget.textContent, event.currentTarget.dataset.country);
-    });
+  newBtn.on("click", function(event){
+    event.preventDefault();
+    getWeatherData("weather", event.currentTarget.textContent, event.currentTarget.dataset.country);
+    getWeatherData("forecast", event.currentTarget.textContent, event.currentTarget.dataset.country);
+  });
 
-    recentList.prepend(newBtn);
-    if( recentList.children().length > 5 ){
-      recentList.children().last().remove();
+  recentList.prepend(newBtn);
+
+  if( recentList.children().length > 5 ){
+    recentList.children().last().remove();
+  }
+  storeButtonList();
+
+}
+
+function storeButtonList(){
+  var recentSearchList = $('#recent-searches-list').children();
+
+  if ( recentSearchList.length > 0){
+    var arr = [];
+    for( var i = 0; i < recentSearchList.length; i++){
+      var buttonObj = {
+        city : recentSearchList[i].textContent,
+        countryId : recentSearchList[i].dataset.country
+      }
+      arr.push(buttonObj);
     }
+    localStorage.setItem('buttonList', JSON.stringify(arr));
   }
 
 }
 
-// $('#search').on("click", function(event){
-//   event.preventDefault();
-//   buttonClick();
-// });
+function getStoredButtonList(){
+  var list = localStorage.getItem("buttonList");
+
+  if( list ){
+    var arr = JSON.parse(list);
+
+    for( var i = 0; i < arr.length; i++ ){
+      addToRecentSearch(arr[i].city, arr[i].countryId);
+    }
+  }
+}
 
 $('#search-form').on("submit", function(event){
   event.preventDefault();
   buttonClick();
 });
+
+window.addEventListener("load", getStoredButtonList)
