@@ -296,37 +296,47 @@
                     <div id="current">
                         <h2>Current Weather for <span id="for-city"></span></h2>
                         <!-- add current weather data here -->
-                        <p>Current Temp: <span id="current-temp"></span></p>
-                        <p>Feels like: <span id="feels-like"></span></p>
-                        <p>High/Low: <span id="high-low"></span></p>
-                        <p>Humidity: <span id="current-humidity"></span></p>
-                        <p>Pressure: <span id="current-pressure"></span></p>
-                        <p>Clouds: <span id="current-clouds"></span></p>
-                        <p>Wind d/s: <span id="current-wind"></span></p>
-
+                        <div class="container">
+                            <div class="row justify-content-begin">
+                                <div class="col-3">
+                                    <p>Current Temp: <span id="current-temp"></span></p>
+                                    <p>Feels like: <span id="feels-like"></span></p>
+                                    <p>High/Low: <span id="high-low"></span></p>
+                                    <p>Humidity: <span id="current-humidity"></span></p>
+                                </div>
+                                <div class="col-3">
+                                    <p>Pressure: <span id="current-pressure"></span></p>
+                                    <p>Clouds: <span id="current-clouds"></span></p>
+                                    <p>Wind d/s: <span id="current-wind"></span></p>
+                                    <p>Visibility: <span id="current-vis"></span></p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div id="forecast" class="row">
+                    <div id="forecast" class="container">
                         <h2>5 Day Forecast</h2>
                         <!-- add forecasted weather here -->
-                        <div class="card border-primary mb-3" style="max-width: 18rem;">
-                            <div class="card-header">Header</div>
-                            <div class="card-body text-primary">
-                            <h5 class="card-title">Primary card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <div id="fcst-cards" class="row">
+                            <div class="card border-primary mb-3" style="max-width: 18rem;">
+                                <div class="card-header">Header</div>
+                                <div class="card-body text-primary">
+                                    <h5 class="card-title">Primary card title</h5>
+                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="card border-secondary mb-3" style="max-width: 18rem;">
-                            <div class="card-header">Header</div>
-                            <div class="card-body text-secondary">
-                            <h5 class="card-title">Secondary card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <div class="card border-secondary mb-3" style="max-width: 18rem;">
+                                <div class="card-header">Header</div>
+                                <div class="card-body text-secondary">
+                                    <h5 class="card-title">Secondary card title</h5>
+                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="card border-success mb-3" style="max-width: 18rem;">
-                            <div class="card-header">Header</div>
-                            <div class="card-body text-success">
-                            <h5 class="card-title">Success card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <div class="card border-success mb-3" style="max-width: 18rem;">
+                                <div class="card-header">Header</div>
+                                <div class="card-body text-success">
+                                    <h5 class="card-title">Success card title</h5>
+                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                </div>
                             </div>
                         </div>
                     </div>
