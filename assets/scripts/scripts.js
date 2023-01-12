@@ -45,7 +45,7 @@ function getWeatherData(wxType, city, countryId){
 
 // Displays the current weather data
 function displayCurrentWeather(data){
-  
+
   // Add/update values to span tags
   $('#wxdate').text(" - " + dayjs().format("M/D/YYYY"));
   $('#wx-img').attr("src", "http://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png")  
@@ -77,7 +77,7 @@ function displayForecastedWeather(data){
     
     cardHeaderEl.text(dayjs(arr[i].dt_txt, "YYYY-MM-DD HH:mm:ss").format("dddd") + " - " + dayjs(arr[i].dt_txt, "YYYY-MM-DD HH:mm:ss").format("M/D/YYYY")).append(icon);
     cardBodyHeaderEl.text(arr[i].weather[0].description);
-    cardTextHighLowEl.text("High/Low: " + Math.round(arr[i].main.temp_max) + "/" + Math.round(arr[i].main.temp_min));
+    cardTextHighLowEl.text("High/Low: " + Math.round(arr[i].main.temp_max) + "/" + Math.round(arr[i].main.temp_min) + "°F");
     cardTextHumidityEl.text("Humidity: " + arr[i].main.humidity + "%");
     cardTextWindEl.text("Wind: " + Math.round(arr[i].wind.deg) + "° @ " + Math.round(arr[i].wind.speed) + " gust " + Math.round(arr[i].wind.gust));
 
