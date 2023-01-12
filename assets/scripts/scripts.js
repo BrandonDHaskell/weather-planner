@@ -71,3 +71,13 @@ function displayForecastedWeather(data){
     $('#fcst-cards').append(cardEl);
   }
 }
+
+$('#search').on("click", function(event){
+  event.preventDefault();
+  buttonClick();
+});
+
+$('form-group').on("submit", function(event){
+  event.preventDefault();
+  buttonClick();
+});
