@@ -54,7 +54,7 @@ function displayCurrentWeather(data){
   $('#feels-like').text(Math.round(data.main.feels_like) + "°F");
   $('#high-low').text(data.main.temp_max + "/" + data.main.temp_min + "°F");
   $('#current-humidity').text(data.main.humidity + "%");
-  $('#current-pressure').text(data.main.pressure);
+  $('#current-pressure').text(data.main.pressure + "hPa");
   $('#current-clouds').text(data.clouds.all + "%");
   $('#current-wind').text(data.wind.deg + "° @ " + Math.round(data.wind.speed) + "mph");
   $('#current-vis').text(Math.round(data.visibility / 1000) + "km");
