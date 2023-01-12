@@ -3,16 +3,20 @@ function buttonClick(){
   var city = $('#city').val().trim();
   var countryId = $('#country').children('option').filter(':selected').val();
 
-  
-  if( reg.test(city) ){
+  // Test that the city is letters and spaces only and not empty
+  // all other input is invalid
+  if( !(city === "") && reg.test(city) ){
     getWeatherData("weather", city, countryId);
     getWeatherData("forecast", city, countryId);
     addToRecentSearch(city, countryId);
+    $('h1').text($('h1').text() + " - " + dayjs().format("M/D/YYYY"));
   } else {
     alert("Invalid city!");
   }
 }
 
+// Gets weather data based on the weather being passed in
+// weather = current, forecast = 5 day forecast
 function getWeatherData(wxType, city, countryId){
   let appKey = 'e4e0f68bb1acce51f75f4879a29e72e0';
   
@@ -22,6 +26,7 @@ function getWeatherData(wxType, city, countryId){
   .then(function (response) {
     if (response.ok) {
       response.json().then(function (data) {
+        console.log(data);
         if( wxType === 'weather' ){
           displayCurrentWeather(data);
         }
@@ -39,25 +44,32 @@ function getWeatherData(wxType, city, countryId){
   });
 }
 
+// Displays the current weather data
 function displayCurrentWeather(data){
-    $('#for-city').text(data.name + " - " + data.weather[0].main);
+  console.log("http://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png");
+  $('#wx-img').attr("src", "http://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png")  
+  $('#for-city').text(data.name + " - " + data.weather[0].main);
+
     
-    $('#current-temp').text(data.main.temp);
-    $('#feels-like').text(data.main.feels_like);
-    $('#high-low').text(data.main.temp_max + "/" + data.main.temp_min);
-    $('#current-humidity').text(data.main.humidity + "%");
-    $('#current-pressure').text(data.main.pressure);
-    $('#current-clouds').text(data.clouds.all + "%");
-    $('#current-wind').text(data.wind.deg + "/" + data.wind.speed);
-    $('#current-vis').text(data.visibility);
+  $('#current-temp').text(data.main.temp);
+  $('#feels-like').text(data.main.feels_like);
+  $('#high-low').text(data.main.temp_max + "/" + data.main.temp_min);
+  $('#current-humidity').text(data.main.humidity + "%");
+  $('#current-pressure').text(data.main.pressure);
+  $('#current-clouds').text(data.clouds.all + "%");
+  $('#current-wind').text(data.wind.deg + "/" + data.wind.speed);
+  $('#current-vis').text(data.visibility);
 
 }
 
+// Displays the forecasted weather
 function displayForecastedWeather(data){
   let arr = data.list;
 
   $('#fcst-cards').html("");
   for(var i = 0; i < arr.length; i += 8 ){
+    console.log("http://openweathermap.org/img/wn/" + arr[i].weather[0].icon + ".png");
+    var icon = $('<img>').attr("src", "http://openweathermap.org/img/wn/" + arr[i].weather[0].icon + ".png")
     var cardEl = $('<div>').addClass("card border-secondary mb-2").css("width", "10rem");
     var cardHeaderEl = $('<div>').addClass("card-header");
     var cardBodyEl = $('<div>').addClass("card-body text-secondary");
@@ -65,7 +77,8 @@ function displayForecastedWeather(data){
     var cardTextHighLowEl = $('<p>').addClass("card-text");
     var cardTextHumidityEl = $('<p>').addClass("card-text");
     
-    cardHeaderEl.text(dayjs(arr[i].dt_txt, "YYYY-MM-DD HH:mm:ss").format("dddd"));
+    // cardHeaderEl.append(icon);
+    cardHeaderEl.text(dayjs(arr[i].dt_txt, "YYYY-MM-DD HH:mm:ss").format("dddd")).append(icon);
     cardBodyHeaderEl.text(arr[i].weather[0].description);
     cardTextHighLowEl.text("High/Low: " + arr[i].main.temp_max + "/" + arr[i].main.temp_min);
     cardTextHumidityEl.text("Humidity: " + arr[i].main.humidity + "%")
@@ -77,6 +90,8 @@ function displayForecastedWeather(data){
   }
 }
 
+// Adds the recent weather search to the Recent Searches list as a
+// button  
 function addToRecentSearch(city, countryId){
   var recentList = $('#recent-searches-list');
   var newBtn = $('<button>').addClass("btn btn-secondary").attr("type", "button").attr("data-country", countryId).text(city);
@@ -125,9 +140,15 @@ function getStoredButtonList(){
   }
 }
 
+
 $('#search-form').on("submit", function(event){
   event.preventDefault();
   buttonClick();
 });
 
-window.addEventListener("load", getStoredButtonList)
+window.addEventListener("load", function(){
+  // load default search params and recent searchs
+  $('#city').val("");
+  $('#country option[value=us]').attr('selected', 'selected');
+  getStoredButtonList();
+});
