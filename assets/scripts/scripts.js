@@ -45,18 +45,19 @@ function getWeatherData(wxType, city, countryId){
 
 // Displays the current weather data
 function displayCurrentWeather(data){
+  
   // Add/update values to span tags
   $('#wxdate').text(" - " + dayjs().format("M/D/YYYY"));
   $('#wx-img').attr("src", "http://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png")  
   $('#for-city').text(data.name + " - " + data.weather[0].main);
-  $('#current-temp').text(data.main.temp);
-  $('#feels-like').text(data.main.feels_like);
-  $('#high-low').text(data.main.temp_max + "/" + data.main.temp_min);
+  $('#current-temp').text(Math.round(data.main.temp) + "°F");
+  $('#feels-like').text(Math.round(data.main.feels_like) + "°F");
+  $('#high-low').text(data.main.temp_max + "/" + data.main.temp_min + "°F");
   $('#current-humidity').text(data.main.humidity + "%");
   $('#current-pressure').text(data.main.pressure);
   $('#current-clouds').text(data.clouds.all + "%");
-  $('#current-wind').text(data.wind.deg + "/" + data.wind.speed);
-  $('#current-vis').text(data.visibility);
+  $('#current-wind').text(data.wind.deg + "° @ " + Math.round(data.wind.speed) + "mph");
+  $('#current-vis').text(Math.round(data.visibility / 1000) + "km");
 }
 
 // Displays the forecasted weather
@@ -72,13 +73,15 @@ function displayForecastedWeather(data){
     var cardBodyHeaderEl = $('<h5>').addClass("card-title");
     var cardTextHighLowEl = $('<p>').addClass("card-text");
     var cardTextHumidityEl = $('<p>').addClass("card-text");
+    var cardTextWindEl = $('<p>').addClass("card-text");
     
     cardHeaderEl.text(dayjs(arr[i].dt_txt, "YYYY-MM-DD HH:mm:ss").format("dddd") + " - " + dayjs(arr[i].dt_txt, "YYYY-MM-DD HH:mm:ss").format("M/D/YYYY")).append(icon);
     cardBodyHeaderEl.text(arr[i].weather[0].description);
-    cardTextHighLowEl.text("High/Low: " + arr[i].main.temp_max + "/" + arr[i].main.temp_min);
-    cardTextHumidityEl.text("Humidity: " + arr[i].main.humidity + "%")
+    cardTextHighLowEl.text("High/Low: " + Math.round(arr[i].main.temp_max) + "/" + Math.round(arr[i].main.temp_min));
+    cardTextHumidityEl.text("Humidity: " + arr[i].main.humidity + "%");
+    cardTextWindEl.text("Wind: " + Math.round(arr[i].wind.deg) + "° @ " + Math.round(arr[i].wind.speed) + " gust " + Math.round(arr[i].wind.gust));
 
-    cardBodyEl.append(cardBodyHeaderEl).append(cardTextHighLowEl).append(cardTextHumidityEl);
+    cardBodyEl.append(cardBodyHeaderEl).append(cardTextHighLowEl).append(cardTextHumidityEl).append(cardTextWindEl);
     cardEl.append(cardHeaderEl).append(cardBodyEl);
 
     $('#fcst-cards').append(cardEl);
