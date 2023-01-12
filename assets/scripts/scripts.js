@@ -1,15 +1,17 @@
 
 function buttonClick(){
-  getWeatherData("weather");
-  getWeatherData("forecast");
+  var city = $('#city').val().trim();
+  var countryId = $('#country').children('option').filter(':selected').val();
+  
+  getWeatherData("weather", city, countryId);
+  getWeatherData("forecast", city, countryId);
+  addToRecentSearch(city, countryId);
 }
 
-function getWeatherData(wxType){
+function getWeatherData(wxType, city, countryId){
   let appKey = 'e4e0f68bb1acce51f75f4879a29e72e0';
-  let cityName = $('#city').val().trim();
-  let countryId = $('#country').children('option').filter(':selected').val();
   
-  let urlStr = "https://api.openweathermap.org/data/2.5/" + wxType + "?q=" + cityName + "," + countryId + "&units=imperial&appid=" + appKey;
+  let urlStr = "https://api.openweathermap.org/data/2.5/" + wxType + "?q=" + city + "," + countryId + "&units=imperial&appid=" + appKey;
   
   fetch(urlStr)
   .then(function (response) {
@@ -33,7 +35,6 @@ function getWeatherData(wxType){
 }
 
 function displayCurrentWeather(data){
-    console.log(data);
     $('#for-city').text(data.name + " - " + data.weather[0].main);
     
     $('#current-temp').text(data.main.temp);
@@ -48,7 +49,6 @@ function displayCurrentWeather(data){
 }
 
 function displayForecastedWeather(data){
-  console.log(data);
   let arr = data.list;
 
   $('#fcst-cards').html("");
@@ -72,12 +72,32 @@ function displayForecastedWeather(data){
   }
 }
 
-$('#search').on("click", function(event){
-  event.preventDefault();
-  buttonClick();
-});
+function addToRecentSearch(city, countryId){
+  var recentList = $('#recent-searches-list');
+  
+  if( recentList.children().length <= 5 ){
+    var newBtn = $('<button>').addClass("btn btn-secondary").attr("type", "button").attr("data-country", countryId).text(city);
 
-$('form-group').on("submit", function(event){
+    newBtn.on("click", function(event){
+      event.preventDefault();
+      getWeatherData("weather", event.currentTarget.textContent, event.currentTarget.dataset.country);
+      getWeatherData("forecast", event.currentTarget.textContent, event.currentTarget.dataset.country);
+    });
+
+    recentList.prepend(newBtn);
+    if( recentList.children().length > 5 ){
+      recentList.children().last().remove();
+    }
+  }
+
+}
+
+// $('#search').on("click", function(event){
+//   event.preventDefault();
+//   buttonClick();
+// });
+
+$('#search-form').on("submit", function(event){
   event.preventDefault();
   buttonClick();
 });

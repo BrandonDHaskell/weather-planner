@@ -22,10 +22,10 @@
         </header>
         <main class="container">
             <div class="row">
-                <section id="searches" class="col-3" >
+                <section id="searches" class="col-md-3" >
                     <div class="city-search">
                         <h2>City Search</h2>
-                        <form>
+                        <form id="search-form">
                             <div class="form-group">
                                 <label for="city">City</label>
                                 <input id="city" type="text" class="form-control" />
@@ -287,9 +287,9 @@
                     </div>
                     <div class="recent-searches">
                         <h2>Recent Searches</h2>
-                        <button  class="btn saveBtn col-2 col-md-1" aria-label="save">
-                            <i class="fas fa-save" aria-hidden="true"></i>
-                        </button>
+                        <div id="recent-searches-list">
+                            <!-- Recent search buttons to go here -->
+                        </div>
                     </div>
                 </section>
                 <section id="weather" class="col-9">
@@ -315,29 +315,8 @@
                     </div>
                     <div id="forecast" class="container">
                         <h2>5 Day Forecast</h2>
-                        <!-- add forecasted weather here -->
                         <div id="fcst-cards" class="row">
-                            <div class="card border-primary mb-3" style="max-width: 18rem;">
-                                <div class="card-header">Header</div>
-                                <div class="card-body text-primary">
-                                    <h5 class="card-title">Primary card title</h5>
-                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                </div>
-                            </div>
-                            <div class="card border-secondary mb-3" style="max-width: 18rem;">
-                                <div class="card-header">Header</div>
-                                <div class="card-body text-secondary">
-                                    <h5 class="card-title">Secondary card title</h5>
-                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                </div>
-                            </div>
-                            <div class="card border-success mb-3" style="max-width: 18rem;">
-                                <div class="card-header">Header</div>
-                                <div class="card-body text-success">
-                                    <h5 class="card-title">Success card title</h5>
-                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                </div>
-                            </div>
+                            <!-- forecast cards to go here -->
                         </div>
                     </div>
                 </section>
