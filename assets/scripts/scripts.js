@@ -9,24 +9,22 @@ function buttonClick(){
     getWeatherData("weather", city, countryId);
     getWeatherData("forecast", city, countryId);
     addToRecentSearch(city, countryId);
-    $('h1').text($('h1').text() + " - " + dayjs().format("M/D/YYYY"));
   } else {
-    alert("Invalid city!");
+    alert("Invalid city name!");
   }
 }
 
-// Gets weather data based on the weather being passed in
+// Gets weather data for a city based on the weather being passed in
 // weather = current, forecast = 5 day forecast
 function getWeatherData(wxType, city, countryId){
   let appKey = 'e4e0f68bb1acce51f75f4879a29e72e0';
-  
   let urlStr = "https://api.openweathermap.org/data/2.5/" + wxType + "?q=" + city + "," + countryId + "&units=imperial&appid=" + appKey;
   
+  // Currently call imperial values only
   fetch(urlStr)
   .then(function (response) {
     if (response.ok) {
       response.json().then(function (data) {
-        console.log(data);
         if( wxType === 'weather' ){
           displayCurrentWeather(data);
         }
@@ -35,6 +33,7 @@ function getWeatherData(wxType, city, countryId){
         }
       });
     } else {
+      // TODO: Update for better error handling on 404 (failed city name)
       alert('Error: ' + response.statusText);
     }
   })
@@ -46,11 +45,10 @@ function getWeatherData(wxType, city, countryId){
 
 // Displays the current weather data
 function displayCurrentWeather(data){
-  console.log("http://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png");
+  // Add/update values to span tags
+  $('#wxdate').text(" - " + dayjs().format("M/D/YYYY"));
   $('#wx-img').attr("src", "http://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png")  
   $('#for-city').text(data.name + " - " + data.weather[0].main);
-
-    
   $('#current-temp').text(data.main.temp);
   $('#feels-like').text(data.main.feels_like);
   $('#high-low').text(data.main.temp_max + "/" + data.main.temp_min);
@@ -59,7 +57,6 @@ function displayCurrentWeather(data){
   $('#current-clouds').text(data.clouds.all + "%");
   $('#current-wind').text(data.wind.deg + "/" + data.wind.speed);
   $('#current-vis').text(data.visibility);
-
 }
 
 // Displays the forecasted weather
@@ -68,7 +65,6 @@ function displayForecastedWeather(data){
 
   $('#fcst-cards').html("");
   for(var i = 0; i < arr.length; i += 8 ){
-    console.log("http://openweathermap.org/img/wn/" + arr[i].weather[0].icon + ".png");
     var icon = $('<img>').attr("src", "http://openweathermap.org/img/wn/" + arr[i].weather[0].icon + ".png")
     var cardEl = $('<div>').addClass("card border-secondary mb-2").css("width", "10rem");
     var cardHeaderEl = $('<div>').addClass("card-header");
@@ -77,8 +73,7 @@ function displayForecastedWeather(data){
     var cardTextHighLowEl = $('<p>').addClass("card-text");
     var cardTextHumidityEl = $('<p>').addClass("card-text");
     
-    // cardHeaderEl.append(icon);
-    cardHeaderEl.text(dayjs(arr[i].dt_txt, "YYYY-MM-DD HH:mm:ss").format("dddd")).append(icon);
+    cardHeaderEl.text(dayjs(arr[i].dt_txt, "YYYY-MM-DD HH:mm:ss").format("dddd") + " - " + dayjs(arr[i].dt_txt, "YYYY-MM-DD HH:mm:ss").format("M/D/YYYY")).append(icon);
     cardBodyHeaderEl.text(arr[i].weather[0].description);
     cardTextHighLowEl.text("High/Low: " + arr[i].main.temp_max + "/" + arr[i].main.temp_min);
     cardTextHumidityEl.text("Humidity: " + arr[i].main.humidity + "%")
