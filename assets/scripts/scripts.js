@@ -52,7 +52,7 @@ function displayCurrentWeather(data){
   $('#for-city').text(data.name + " - " + data.weather[0].main);
   $('#current-temp').text(Math.round(data.main.temp) + "°F");
   $('#feels-like').text(Math.round(data.main.feels_like) + "°F");
-  $('#high-low').text(data.main.temp_max + "/" + data.main.temp_min + "°F");
+  $('#high-low').text(Math.round(data.main.temp_max) + "/" + Math.round(data.main.temp_min) + "°F");
   $('#current-humidity').text(data.main.humidity + "%");
   $('#current-pressure').text(data.main.pressure + "hPa");
   $('#current-clouds').text(data.clouds.all + "%");
