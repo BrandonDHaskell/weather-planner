@@ -4,7 +4,7 @@ Welcome to Weather Planner!  Feel free to try it out at the deployed site below.
 
 See the weather all around the world if you want to!
 
-See the [Deployed Site](https://bhaskell7901.github.io/weather-planner/)
+See the [Deployed Site](https://BrandonDHaskell.github.io/weather-planner/)
 
 
 ## Table of Contents
